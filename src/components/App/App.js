@@ -1,9 +1,10 @@
 import React from 'react'
+import ProfileCard from '../ProfileCard/ProfileCard'
 
 export default function App() {
   return (
     <>
-      <h1>Parcel + React</h1>
+      <ProfileCard />
     </>
   )
 }
