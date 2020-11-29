@@ -1,1 +1,8 @@
 @import '../node_modules/normalize.css/normalize.css';
+
+.animated {
+  & > span {
+    display: block;
+    width: auto;
+  }
+}

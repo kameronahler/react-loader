@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { CSSTransitionGroup } from 'react-transition-group'
+import './ProfileCard.scss'
 import axios from 'axios'
 
 export default function ProfileCard() {
@@ -43,16 +45,30 @@ export default function ProfileCard() {
 
   if (user) {
     return (
-      <section>
-        <img src={user.img} alt='' />
-        <header>
-          <h1>{`${user.name.first} ${user.name.last}`}</h1>
-        </header>
-        <p>{user.age}</p>
-        <p>{`${user.location.city}, ${user.location.state}`}</p>
-      </section>
+      <div className='animated'>
+        <CSSTransitionGroup
+          transitionName='profile-card-'
+          transitionAppear={true}
+          transitionAppearTimeout={5000}
+        >
+          <section>
+            <img src={user.img} alt='' />
+            <header>
+              <h1>{`${user.name.first} ${user.name.last}`}</h1>
+            </header>
+            <p>{user.age}</p>
+            <p>{`${user.location.city}, ${user.location.state}`}</p>
+          </section>
+        </CSSTransitionGroup>
+      </div>
     )
   } else {
-    return <p>Loading...</p>
+    return (
+      <section>
+        <header>
+          <h6>Loading...</h6>
+        </header>
+      </section>
+    )
   }
 }

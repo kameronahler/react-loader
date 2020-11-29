@@ -1,0 +1,12 @@
+.profile-card {
+  &--appear {
+    opacity: 0.01;
+    transform: translateY(-2rem);
+  }
+
+  &--appear-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1s ease-out, transform 0.25s ease-out;
+  }
+}
