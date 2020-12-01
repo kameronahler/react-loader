@@ -1,8 +1,10 @@
 @import '../node_modules/normalize.css/normalize.css';
 
-.animated {
-  & > span {
-    display: block;
-    width: auto;
-  }
+* {
+  box-sizing: border-box;
+}
+
+::before,
+::after {
+  box-sizing: inherit;
 }

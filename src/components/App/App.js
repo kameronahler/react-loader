@@ -5,8 +5,6 @@ export default function App() {
   return (
     <div className='profile-cards'>
       <ProfileCard />
-      <ProfileCard />
-      <ProfileCard />
     </div>
   )
 }

@@ -5,16 +5,11 @@ import axios from 'axios'
 
 export default function ProfileCard() {
   const [user, setUser] = useState(null)
-
-  console.log(`mounted state`, user)
+  const [error, setError] = useState(null)
 
   const fetchData = async () => {
-    console.log('start useEffect')
     try {
       let res = await axios.get('https://randomuser.me/api/?nat=US')
-      console.log('using res.data.results[0]')
-      console.log('building state object based on res...')
-
       const resData = res.data.results[0]
       const newState = {
         age: resData.dob.age,
@@ -29,18 +24,20 @@ export default function ProfileCard() {
           last: resData.name.last,
         },
       }
-
-      console.log('updating state...')
       setUser(newState)
-    } catch {
-      console.log('catch')
+    } catch (error) {
+      if (error.statusText === 'OK') {
+        setError(`Couldn't retrieve data`)
+      } else {
+        setError(`Network error`)
+      }
     }
   }
 
   useEffect(() => {
     setTimeout(() => {
       fetchData()
-    }, 1000)
+    }, 5000)
   }, [])
 
   if (user) {
@@ -51,23 +48,39 @@ export default function ProfileCard() {
           transitionAppear={true}
           transitionAppearTimeout={5000}
         >
-          <section>
-            <img src={user.img} alt='' />
-            <header>
-              <h1>{`${user.name.first} ${user.name.last}`}</h1>
+          <section className='profile-card'>
+            <img className='profile-card__img' src={user.img} alt='' />
+            <header className='profile-card__header'>
+              <h1 className='profile-card__name'>{`${user.name.first} ${user.name.last}`}</h1>
             </header>
-            <p>{user.age}</p>
-            <p>{`${user.location.city}, ${user.location.state}`}</p>
+            <p className='profile-card__age'>{user.age}</p>
+            <p className='profile-card__location'>{`${user.location.city}, ${user.location.state}`}</p>
           </section>
         </CSSTransitionGroup>
       </div>
     )
+  } else if (error) {
+    return (
+      <section className='profile-card profile-card--error'>
+        <div className='profile-card__img profile-card__img--error' />
+        <div className='profile-card__header profile-card__header--error'>
+          <div className='profile-card__name profile-card__name--error'>
+            {error}
+          </div>
+        </div>
+        <div className='profile-card__age profile-card__age--error'></div>
+        <div className='profile-card__location profile-card__location--error'></div>
+      </section>
+    )
   } else {
     return (
-      <section>
-        <header>
-          <h6>Loading...</h6>
-        </header>
+      <section className='profile-card profile-card--loading'>
+        <div className='profile-card__img profile-card__img--loading' />
+        <div className='profile-card__header profile-card__header--loading'>
+          <div className='profile-card__name profile-card__name--loading'></div>
+        </div>
+        <div className='profile-card__age profile-card__age--loading'></div>
+        <div className='profile-card__location profile-card__location--loading'></div>
       </section>
     )
   }
